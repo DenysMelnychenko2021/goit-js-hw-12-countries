@@ -1,7 +1,7 @@
 import { error, notice, defaultModules } from '@pnotify/core/dist/PNotify.js';
-import * as PNotifyMobile from '@pnotify/mobile/dist/PNotifyMobile.js';
+//import * as PNotifyMobile from '@pnotify/mobile/dist/PNotifyMobile.js';
 import '@pnotify/core/dist/BrightTheme.css';
-defaultModules.set(PNotifyMobile, {});
+//defaultModules.set(PNotifyMobile, {});
 
 import renderCountry from '../templates/template.handlebars';
 
@@ -24,18 +24,28 @@ export default function fetchCountries(searchQuery) {
     })
     .then(response => {
       if (response.status === 404) {
-        error({ text: 'Ошибка 404. Сервер не может найти данные согласно запросу' });
+        error({
+          text: 'Ошибка 404. Сервер не может найти данные согласно запросу',
+          delay: 500,
+        });
       }
       return response;
     })
     .then(array => {
       console.log(array);
       if (inputCountry === ' ') {
-        notice({ text: 'Вы ничего не ввели' });
+        notice({
+          text: 'Вы ничего не ввели',
+          delay: 500,
+        });
       } else if (!isNaN(inputCountry)) {
-        notice({ text: 'Вы ввели числовое значение' });
+        notice({
+          text: 'Вы ввели числовое значение',
+          delay: 500,
+        });
       } else if (array.length > 10) {
-        notice({ text: 'Введите более точный запрос' });
+        onClearCountry();
+        notice({ text: 'Введите более точный запрос', delay: 500 });
       } else if (array.length >= 2 && array.length <= 10) {
         onClearCountry();
         let markupList = array
